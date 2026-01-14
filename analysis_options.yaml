@@ -1,0 +1,53 @@
+# This file configures the analyzer, which statically analyzes Dart code to
+# check for errors, warnings, and lints.
+#
+# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
+# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
+# invoked from the command line by running `flutter analyze`.
+
+# The following line activates a set of recommended lints for Flutter apps,
+# packages, and plugins designed to encourage good coding practices.
+include: package:very_good_analysis/analysis_options.yaml
+
+linter:
+  rules:
+    # ✅ ZORUNLU (Temel Temizlik & Standartlar)
+    always_declare_return_types: true          # Fonksiyonlarda geri dönüş tipini yaz
+    always_specify_types:                      # var yerine int, String kullan
+      - fields
+      - return_types
+    avoid_print: true                          # print yasak, logger kullan
+    prefer_const_constructors: true            # const widgetları zorunlu kıl
+    prefer_final_fields: true                  # mümkünse field'lar final olsun
+    prefer_final_locals: true                  # değişkenler final tanımlansın
+    avoid_unused_constructor_parameters: true  # kullanılmayan parametre olmasın
+    unnecessary_getters_setters: true          # gereksiz getter/setter yazma
+    unnecessary_this: true                     # gereksiz this. kullanımını yasakla
+    prefer_single_quotes: true                 # stringlerde tek tırnak kullan
+    prefer_interpolation_to_compose_strings: true # string + yerine ${} kullan
+
+    # 🚀 İLERİ SEVİYE (Okunabilirlik & Mimari Düzen)
+    always_put_required_named_parameters_first: true # required parametreler en önde
+    sort_constructors_first: true                    # constructor'lar en başta
+    sort_unnamed_constructors_first: true            # unnamed constructor önde
+    sort_child_properties_last: true                 # child parametresi en sonda
+    cascade_invocations: true                        # zincirleme . kullanımı
+    unnecessary_lambdas: true                        # gereksiz lambda yazma
+    avoid_positional_boolean_parameters: true        # true/false param yerine enum
+    avoid_relative_lib_imports: true                 # ../ ile import etme
+    always_use_package_imports: true                 # package: ile import zorunlu
+    directives_ordering: true                        # import/export sıralı olsun
+    sort_pub_dependencies: true                      # pubspec bağımlılıkları sırala
+    #prefer_expression_function_bodies: true         # kısa fonksiyonlar => ile yazılsın
+    avoid_redundant_argument_values: true            # default ile aynıysa param yazma
+
+    # ⚙️ OPSİYONEL (Projeye Göre Seçilebilir)
+    public_member_api_docs: true                     # public fonksiyonlara doc şart
+    lines_longer_than_80_chars: false                # 80 karakter limiti kapalı
+    prefer_double_quotes: false                      # çift tırnak zorunlu değil
+    avoid_dynamic_calls: true                        # dynamic tip kullanımını engelle
+    prefer_null_aware_operators: true                # null check için ?? kullan
+    avoid_slow_async_io: true                        # senkron io yasak (dosya işlemlerinde)
+    prefer_typing_uninitialized_variables: true      # varsayılanı null olsa bile tip yaz
+    avoid_function_literals_in_foreach_calls: true   # foreach içinde lambda yerine for kullan
+
