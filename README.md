@@ -40,7 +40,7 @@ https://drive.google.com/file/d/16AMYYav6h3QvDEOpDO3lJIbkAu1y31eF/view?usp=shari
 
 https://drive.google.com/file/d/1RplvBTXymkJ90L0v8BvLoTemo-kqbmxu/view?usp=sharing
   
-## File Structure
+
 ## Dosya Mimarisi [TR]
 
 .
