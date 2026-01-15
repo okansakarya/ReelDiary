@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/presentation/pages/auth/login/components/widgets/login_form_widget.dart';
 import 'package:movieapp/presentation/pages/auth/login/components/widgets/login_header_widget.dart';
 
 class LoginPage extends StatelessWidget {
@@ -6,16 +7,14 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
+    return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Column(
-        children: [
-          LoginHeaderWidget()
-      
-      
-      
-      
-        ],
+          children: const [
+            Expanded(flex: 5, child: LoginHeaderWidget()),
+            Expanded(flex: 12, child: LoginFormWidget()),
+          ],
         ),
       ),
     );

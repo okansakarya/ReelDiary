@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
-import 'package:movieapp/presentation/pages/auth/components/widgets/custom_elevated_button_widget.dart';
+import 'package:movieapp/presentation/components/widgets/custom_elevated_button_widget.dart';
 
 class CustomGoogleButtonWidget extends StatelessWidget {
   const CustomGoogleButtonWidget({super.key});

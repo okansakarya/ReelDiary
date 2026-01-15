@@ -4,7 +4,6 @@ import 'package:movieapp/presentation/pages/auth/auth_wrapper/auth_wrapper.dart'
 import 'package:movieapp/presentation/pages/auth/login/login_page.dart';
 import 'package:movieapp/presentation/pages/auth/register/register_page.dart';
 import 'package:movieapp/presentation/pages/auth/welcome/welcome_page.dart';
-import 'package:movieapp/presentation/pages/homePage/home_page.dart';
 import 'package:movieapp/presentation/pages/notFound/notFound_page.dart';
 import 'package:movieapp/presentation/pages/splash/splash_page.dart';
 
@@ -16,7 +15,7 @@ class RouterUtils {
   /// Route settings
   GoRouter routerConfig() {
     return GoRouter(
-      initialLocation: '/splash',
+      initialLocation: '/login',
       routes: <RouteBase>[
         GoRoute(
           path: '/splash',

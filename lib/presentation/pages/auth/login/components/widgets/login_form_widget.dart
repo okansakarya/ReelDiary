@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
 import 'package:movieapp/core/extensions/string_extension.dart';
 import 'package:movieapp/presentation/components/widgets/custom_circular_widget.dart';
-import 'package:movieapp/presentation/pages/auth/components/widgets/custom_elevated_button_widget.dart';
-import 'package:movieapp/presentation/pages/auth/components/widgets/custom_textfield_widget.dart';
+import 'package:movieapp/presentation/components/widgets/custom_elevated_button_widget.dart';
+import 'package:movieapp/presentation/components/widgets/custom_textfield_widget.dart';
 import 'package:movieapp/presentation/pages/auth/state/auth_cubit.dart';
 import 'package:movieapp/presentation/pages/auth/state/auth_state.dart';
 import 'package:movieapp/utils/pop_up_utils.dart';
@@ -43,62 +43,116 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   void _navigateBack() {
     context.pop();
   }
-
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            CustomTextFieldWidget(
-              controller: _emailController,
-              label: 'E-Mail',
-              hintText: 'E-Mail girin',
-              icon: Icons.person,
-              validator: (value) {
-                if (value == null || value.isEmpty) return 'E-Mail boş';
-                if (!value.isValidEmail) return 'Geçerli e-mail gir';
-                return null;
-              },
-            ),
-            SizedBox(height: ScreenUtils.getScreenHeight(context) * 0.03),
-            CustomTextFieldWidget(
-              controller: _passwordController,
-              label: 'Şifre',
-              hintText: 'Şifrenizi girin',
-              icon: Icons.lock_outline,
-              isPassword: true, // ✅
-              validator: (value) {
-                if (value == null || value.isEmpty) return 'Şifre boş';
-                if (value.length < 6) return 'Şifre en az 6 karakter';
-                return null;
-              },
-            ),
-            SizedBox(height: ScreenUtils.getScreenHeight(context) * 0.001),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () => context.push('/forgot_password'),
-                child: const Text(
-                  'Şifremi unuttum',
-                  style: TextStyle(color: AppColors.primaryColor), // ✅ link rengi
-                ),
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          const Spacer(flex: 2),
+
+          // Email
+          Expanded(
+            flex: 4,
+            child: Align(
+              alignment: Alignment.center,
+              child: CustomTextFieldWidget(
+                controller: _emailController,
+                label: 'E-Mail',
+                hintText: 'E-Mail girin',
+                icon: Icons.person,
+                validator: (value) {
+                  if (value == null || value.isEmpty) return 'E-Mail boş';
+                  if (!value.isValidEmail) return 'Geçerli e-mail gir';
+                  return null;
+                },
               ),
             ),
-            SizedBox(height: ScreenUtils.getScreenHeight(context) * 0.02),
-            BlocConsumer<AuthCubit, AuthState>(
+          ),
+
+          Spacer(),
+
+          // Password
+          Expanded(
+            flex: 4,
+            child: Align(
+              alignment: Alignment.center,
+              child: CustomTextFieldWidget(
+                controller: _passwordController,
+                label: 'Şifre',
+                hintText: 'Şifrenizi girin',
+                icon: Icons.lock_outline,
+                isPassword: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) return 'Şifre boş';
+                  if (value.length < 6) return 'Şifre en az 6 karakter';
+                  return null;
+                },
+              ),
+            ),
+          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text('Hesabın Mı Yok?'),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () => context.push('/register'),
+                      child: const Text(
+                        'Kayıt Ol',
+                        style: TextStyle(color: Colors.white60),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              // Forgot password
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton(
+                  onPressed: () => context.push('/forgot_password'),
+                  child: const Text(
+                    'Şifremi unuttum',
+                    style: TextStyle(color: AppColors.primaryColor),
+                  ),
+                ),
+              ),
+              // Forgot password
+
+
+
+            ],
+          ),
+
+
+
+          // Button area: Expanded doğrudan Column çocuğu (doğru)
+          Expanded(
+            flex: 2,
+            child: BlocConsumer<AuthCubit, AuthState>(
               listener: (context, state) {
                 if (state is Authenticated) {
-                  _navigateBack();
+                  // pop + popup hatasını önlemek için: popup önce, pop sonra (frame)
+                  FocusManager.instance.primaryFocus?.unfocus();
+
                   PopUpUtils.showPopup(
                     context,
                     true,
                     successMessage: 'Giriş Başarılı!',
                     failureMessage: '',
                   );
+
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (!context.mounted) return;
+                    context.pop();
+                  });
                 } else if (state is AuthError) {
+                  FocusManager.instance.primaryFocus?.unfocus();
                   PopUpUtils.showPopup(
                     context,
                     false,
@@ -110,19 +164,18 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               builder: (context, state) {
                 return CustomElevatedButtonWidget(
                   onPressed: state is AuthLoading ? null : _handleLogin,
-                  backgroundColor: AppColors.primaryColor, // ✅
+                  backgroundColor: AppColors.primaryColor,
                   child: state is AuthLoading
                       ? const CustomCircularWidget()
-                      : const Text(
-                    'Giriş yap',
-                    style: TextStyle(fontSize: 18),
-                  ),
+                      : const Text('Giriş yap', style: TextStyle(fontSize: 18)),
                 );
               },
             ),
-          ],
-        ),
+          ),
+        const Spacer(flex: 4,)
+        ],
       ),
     );
   }
+
 }
