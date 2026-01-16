@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:movieapp/app.dart';
 import 'package:movieapp/core/config/app_initialize_config.dart';
 import 'package:movieapp/core/config/bloc_initialize_config.dart';
@@ -18,6 +19,9 @@ Future<void> initialize() async {
   try {
     await initializeApp();
     await EasyLocalization.ensureInitialized();
+
+    await dotenv.load(fileName: '.env');
+
 
     // 🔥 Firebase geçici olarak devre dışı bırakıldı
     // await FirebaseConfig.initializeFirebase();

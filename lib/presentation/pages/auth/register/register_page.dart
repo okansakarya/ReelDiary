@@ -9,17 +9,18 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Align(
-                alignment: AlignmentGeometry.topLeft,
-                child: CustomBackButtonWidget()),
-            RegisterHeaderWidget(),
-            RegisterFormWidget(),
-          ],
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Align(
+                  alignment: AlignmentGeometry.topLeft,
+                  child: CustomBackButtonWidget()),
+              RegisterHeaderWidget(),
+              RegisterFormWidget(),
+            ],
+          ),
         ),
       ),
     );

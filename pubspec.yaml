@@ -43,6 +43,7 @@ dependencies:
   timeago: ^3.7.1
   slide_countdown: ^2.0.2
   dropdown_search: ^6.0.2
+  flutter_dotenv: ^6.0.0
 
 
 dev_dependencies:
@@ -64,3 +65,4 @@ flutter:
     - resources/assets/tags/
     - resources/assets/icons/
     - resources/translations/
+    - .env
