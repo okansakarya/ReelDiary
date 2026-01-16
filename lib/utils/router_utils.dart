@@ -15,7 +15,7 @@ class RouterUtils {
   /// Route settings
   GoRouter routerConfig() {
     return GoRouter(
-      initialLocation: '/login',
+      initialLocation: '/splash',
       routes: <RouteBase>[
         GoRoute(
           path: '/splash',

@@ -19,7 +19,7 @@ class RegisterHeaderWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Giriş Yap',
+                'Kayıt Ol',
                 style: TextStyle(
                   fontSize: 30,
                   color: AppColors.textColor,
@@ -28,7 +28,7 @@ class RegisterHeaderWidget extends StatelessWidget {
               ),
               SizedBox(height: ScreenUtils.getScreenHeight(context) * 0.03),
               const Text(
-                "cosVinci'ye hoş geldiniz",
+                "ReelDiary'e hoşgeldiniz!",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

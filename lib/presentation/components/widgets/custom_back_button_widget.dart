@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movieapp/core/constants/app_colors.dart';
 
 class CustomBackButtonWidget extends StatelessWidget {
   const CustomBackButtonWidget({
@@ -14,9 +15,9 @@ class CustomBackButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => _navigateToBack(context),
-      child: const CircleAvatar(
+      child:  CircleAvatar(
         radius: 20,
-        backgroundColor: Color(0xFFFF6F61),
+        backgroundColor: AppColors.primaryColor,
         child: FaIcon(FontAwesomeIcons.angleLeft,size: 17)
       ),
     );

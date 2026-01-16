@@ -15,7 +15,7 @@ class LoginHeaderWidget extends StatelessWidget {
       children: [
         const Spacer(flex: 1),
         Expanded(
-          flex: 8,
+          flex: 12,
           child: Center(
             child: ConstrainedBox(
               constraints: BoxConstraints(maxHeight: logoMaxH),
@@ -28,7 +28,7 @@ class LoginHeaderWidget extends StatelessWidget {
         ),
 
         Expanded(
-          flex: 2,
+          flex: 3,
           child: Center(
             child: Text(
               'Welcome Again',
@@ -45,7 +45,7 @@ class LoginHeaderWidget extends StatelessWidget {
         ),
 
         Expanded(
-          flex: 2,
+          flex: 3,
           child: Center(
             child: Text(
               'Sign in to continue your movie diary.',
