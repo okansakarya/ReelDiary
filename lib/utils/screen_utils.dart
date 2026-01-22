@@ -12,4 +12,9 @@ class ScreenUtils {
     return MediaQuery.of(context).size.height;
   }
 
+  /// Horizontal padding için standart değer döndürür
+  static double getHorizontalPadding(BuildContext context) {
+    return 20.0; // 5 * 4 = 20px (HTML'de px-5)
+  }
+
 }

@@ -1,0 +1,175 @@
+# Cursor Rules — Flutter Clean Architecture (Supabase + Cubit/Bloc)
+
+Bu repoda üretilecek tüm kodlar aşağıdaki mimari, klasör yapısı, DI ve UI kurallarına uymalıdır.
+Kurallara uymayan öneriler üretme; gerekiyorsa mevcut yapıyı koruyarak minimal değişiklik öner.
+
+---
+
+## 0) Kesin Prensipler (NON-NEGOTIABLE)
+- Clean Architecture + katman ayrımı zorunlu.
+- CRUD + tüm SQL/Supabase query/RPC işlemleri SADECE `lib/data/services/` içinde yapılır.
+- `Repository` ve `Cubit` içinde SQL / Supabase query / rpc / tablo adı / query builder KESİNLİKLE YASAK.
+- Akış: UI -> Cubit -> Repo -> Service (başka yol yok)
+  - Cubit SADECE repo çağırır, state emit eder.
+  - Repo SADECE service çağırır, try/catch + error map yapar.
+  - Service SADECE DB/API çağırır (CRUD burada).
+- Dependency Injection zorunlu: Service -> Repo -> Cubit constructor ile enjekte edilir.
+
+- UI tarafı:
+  - Card KESİNLİKLE YASAK (her yerde).
+  - Widget'ların (reusable component'lerin) İÇİNDE padding KESİNLİKLE YASAK.
+  - Dikey (vertical/height) padding KESİNLİKLE YASAK.
+  - Yatay padding (horizontal) sadece gerektiğinde serbest ve ScreenUtils ile verilmeli.
+  - Padding, widget'ın çağrıldığı ANA sayfada / builder'da verilir; widget içinde verilmez.
+
+  - SizedBox kuralı (GÜNCEL):
+    - Reusable widget/component içinde SizedBox KESİNLİKLE YASAK.
+    - Sadece ANA SAYFA (page) içinde, minimal boşluk gerekiyorsa ve Expanded/Flex ile çözülemiyorsa kullanılabilir.
+    - Kullanılırsa MAGIC NUMBER YASAK:
+      - SizedBox(height: 8) YASAK
+      - SizedBox(height: ScreenUtils.<...>(context)) ZORUNLU
+    - SizedBox sadece "son çare":
+      - Expanded/Flexible/Spacer ile hata veriyorsa
+      - Veya çok küçük boşluk şartsa
+
+- Tema ayarları `core/config/theme_config.dart` içinde belirlenir.
+- Renkler `core/constants/app_colors.dart` içinde bulunur.
+- Tüm UI sayfaları responsive olmak ZORUNDA:
+  - Yatay eksen default kapalı varsay; dikey responsivlik kritik.
+  - Tablet'e özel ayrı responsive şart değil.
+  - Responsive mümkün olduğunca Flutter layout sistemiyle (flex/constraints) çözülür.
+- Statik değer gerekiyorsa ScreenUtils kullanılmalı.
+- SafeArea mümkünse kullanılmalı.
+- SingleChildScrollView sadece kaydırma zorunlu sayfalarda serbest.
+
+---
+
+## 1) Klasör Yapısı (Zorunlu)
+lib/
+  core/
+    config/
+      - theme_config.dart
+    constants/
+      - app_colors.dart
+    extensions/
+      - ...
+  data/
+    models/ (veya modals/ — projede hangisi varsa SADECE o kullanılacak)
+    repository/
+    services/
+  presentation/
+    components/
+    pages/
+  utils/
+    - screen_utils.dart
+    - router_utils.dart
+    - pop_up_utils.dart
+    - logger_utils.dart
+    - url_launcher_utils.dart
+    - image_utils.dart
+    - distance_utils.dart
+    - distance_filter_utils.dart
+
+---
+
+## 2) İsimlendirme Kuralları
+- Dosya isimleri: snake_case
+- Sınıflar: PascalCase
+- Cubit/State: `<Feature>Cubit`, `<Feature>State`
+
+---
+
+## 3) Dependency Injection (Zorunlu)
+- Constructor injection.
+- DI kayıtları config'te.
+
+---
+
+## 4) Katman Sorumlulukları (KESİN YASAKLAR)
+- CRUD sadece service'te.
+- Repo/Cubit içinde supabase/sql/query/rpc yok.
+
+---
+
+## 5) Error Mapping (Repo İçi Switch-Case)
+- Mapper repo içinde private switch-case.
+
+---
+
+## 6) UI Kuralları (Performans + Responsive)
+### 6.1 130 Satır Kuralı (Şartlı)
+- İlk tasarım aşamasında sayfa 130 satırı geçmeyecek şekilde `components/widgets/` altına böl.
+- BlocConsumer/BlocListener yüzünden 130 satır aşılabilir.
+
+### 6.2 Layout / Responsive (ZORUNLU)
+- Widget/component içinde:
+  - Padding YASAK
+  - SizedBox YASAK
+  - Card YASAK
+- Boşluk/hizalama için:
+  - Expanded / Flexible / Spacer kullan.
+  - flex değerlerini ayarlayarak alan dağıt.
+- Parent sayfada:
+  - Sadece horizontal padding (ScreenUtils) serbest.
+  - Minimal spacing için son çare SizedBox serbest (ScreenUtils ile, magic number yok).
+- Vertical padding YASAK (her yerde).
+- SafeArea mümkünse kullanılmalı.
+- SingleChildScrollView sadece zorunlu sayfalarda.
+
+### 6.3 Listeleme Standardı (ListView)
+- Listeleme gerektiğinde mümkün olduğunca `ListView.builder`.
+- Liste widget'ı dışarıdan listeyi almalı: `final List<T> items;`
+- itemBuilder içinde:
+  - Sadece horizontal padding (ScreenUtils)
+  - Dikey padding yok
+  - Child: Container tabanlı item widget (padding yok, sizedbox yok, card yok)
+
+---
+
+## 7) Utils Kullanım Zorunluluğu
+- Padding/ölçü/spacing: ScreenUtils
+- Popup: PopUpUtils
+- Logging: LoggerUtils (print yok)
+- Router: RouterUtils
+- URL: UrlLauncherUtils
+- Image: ImageUtils
+- Distance: DistanceUtils + distance_filter_utils
+
+---
+
+## 8) AppColors + ThemeConfig
+- AppColors konsolidasyonu (benzer renkleri AppColors'a taşı).
+- Prompt'ta renk varsa uyumlu palette üret ve theme_config ile bağla.
+- AppColors: primary/onPrimary, secondary/onSecondary, accent, background/surface/onSurface,
+  textPrimary/textSecondary, border/divider, success/warning/error/info, disabled.
+
+---
+
+## 9) ŞABLONLAR (Liste + Container)
+- ListView.builder + horizontal padding only (ScreenUtils)
+- Container tabanlı item widget:
+  - padding yok
+  - sizedbox yok
+  - card yok
+  - boşluk: Expanded/Flexible/Spacer
+
+---
+
+## 10) Cursor Otomatik Kontrol
+HATALI:
+- Repo/Cubit içinde supabase/sql/query/rpc
+- Card (her yerde)
+- Widget içinde padding
+- Vertical padding (her yerde)
+- Widget içinde SizedBox (kesin)
+- Ana sayfada SizedBox + magic number
+
+EKSİK:
+- CRUD service'te değilse
+- Repo try/catch + mapper yoksa
+- Cubit emit yapmıyorsa
+- ScreenUtils kullanılmıyorsa (padding/spacing)
+- AppColors + theme_config güncellenmediyse (renk prompt'unda)
+
+---
+BİTTİ

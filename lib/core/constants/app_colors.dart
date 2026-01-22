@@ -25,6 +25,8 @@ class AppColors {
   static const Color textSubtle = Color(0xFF6B7280); // gray-500
   static const Color starYellow = Color(0xFFFACC15); // yellow-400
 
+  // Surface colors
+  static const Color surfaceDark = Color(0xFF211111); // cards, nav glass background
 
   static const backgroundDark = Color(0xFF120A0A); // home tasarımına yakın
 
