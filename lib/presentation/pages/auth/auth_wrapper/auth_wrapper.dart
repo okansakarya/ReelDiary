@@ -4,6 +4,7 @@ import 'package:movieapp/data/repository/auth_repository.dart';
 import 'package:movieapp/data/services/auth_service.dart';
 import 'package:movieapp/presentation/pages/auth/welcome/welcome_page.dart';
 import 'package:movieapp/presentation/pages/homePage/home_page.dart';
+import 'package:movieapp/presentation/pages/navbar/nav_bar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// App Auth Management
@@ -37,7 +38,7 @@ class AuthWrapper extends StatelessWidget {
           final session = snapshot.data!.session;
           if(session != null) {
             /// Main sayfasına yönlendirecek
-            return const HomePage();
+            return const NavBarPage();
           }
         }
 

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movieapp/presentation/pages/auth/auth_wrapper/auth_wrapper.dart';
+import 'package:movieapp/presentation/pages/auth/forgotPassword/changeUserPassword/change_user_password.dart';
+import 'package:movieapp/presentation/pages/auth/forgotPassword/sendResetPasswordCode/reset_password.dart';
+import 'package:movieapp/presentation/pages/auth/forgotPassword/verifyUserPassword/verify_user_password.dart';
 import 'package:movieapp/presentation/pages/auth/login/login_page.dart';
 import 'package:movieapp/presentation/pages/auth/register/register_page.dart';
 import 'package:movieapp/presentation/pages/auth/welcome/welcome_page.dart';
 import 'package:movieapp/presentation/pages/notFound/notFound_page.dart';
 import 'package:movieapp/presentation/pages/splash/splash_page.dart';
-
-
-
 
 /// Route Utils
 class RouterUtils {
@@ -45,6 +45,24 @@ class RouterUtils {
           path: '/register',
           builder: (BuildContext context, GoRouterState state) {
             return const RegisterPage();
+          },
+        ),
+        GoRoute(
+          path: '/forgotPassword',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ResetPasswordPage();
+          },
+        ),
+        GoRoute(
+          path: '/verifyCodePage',
+          builder: (BuildContext context, GoRouterState state) {
+            return const VerifyCodePage();
+          },
+        ),
+        GoRoute(
+          path: '/changeUserPassword',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ChangeUserPasswordPage();
           },
         ),
       ],

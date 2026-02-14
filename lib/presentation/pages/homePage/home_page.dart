@@ -64,7 +64,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            const HomeBottomNavWidget(),
           ],
         ),
       ),

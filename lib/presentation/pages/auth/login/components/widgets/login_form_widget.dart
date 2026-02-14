@@ -7,23 +7,17 @@ import 'package:movieapp/core/extensions/string_extension.dart';
 import 'package:movieapp/presentation/components/widgets/custom_circular_widget.dart';
 import 'package:movieapp/presentation/components/widgets/custom_elevated_button_widget.dart';
 import 'package:movieapp/presentation/components/widgets/custom_textfield_widget.dart';
+import 'package:movieapp/presentation/pages/auth/forgotPassword/sendResetPasswordCode/reset_password.dart';
 import 'package:movieapp/presentation/pages/auth/login/components/widgets/custom_divider_widget.dart';
 import 'package:movieapp/presentation/pages/auth/login/components/widgets/custom_google_button_widget.dart';
-import 'package:movieapp/presentation/pages/auth/resetPassword/reset_password.dart';
 import 'package:movieapp/presentation/pages/auth/state/auth_cubit.dart';
 import 'package:movieapp/presentation/pages/auth/state/auth_state.dart';
 import 'package:movieapp/utils/pop_up_utils.dart';
-import 'package:movieapp/utils/screen_utils.dart';
 
 class LoginFormWidget extends StatefulWidget {
   final VoidCallback onGooglePressed;
 
   final VoidCallback onApplePressed;
-
-
-
-
-
 
   const LoginFormWidget({
     required this.onApplePressed,
@@ -31,26 +25,9 @@ class LoginFormWidget extends StatefulWidget {
     super.key,
   });
 
-
-  Future<void> showResetPasswordDialog(
-      BuildContext context, {
-        required Future<void> Function(String email) onSubmit,
-      }) {
-    return showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (_) => ResetPasswordDialog(onSubmit: onSubmit),
-    );
-  }
-
-
   @override
   State<LoginFormWidget> createState() => _LoginFormWidgetState();
 }
-
-
-
-
 
 class _LoginFormWidgetState extends State<LoginFormWidget> {
   final TextEditingController _emailController = TextEditingController();
@@ -74,8 +51,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     }
   }
 
-  void _navigateBack() {
-    context.pop();
+  void resetPassword(BuildContext context) {
+    context.push('/forgotPassword');
   }
 
   @override
@@ -136,7 +113,10 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                         onPressed: () => context.push('/register'),
                         child: const Text(
                           'Kayıt Ol',
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
                       ),
                     ),
@@ -146,15 +126,11 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: TextButton(
-                    onPressed: () {
-                      widget.showResetPasswordDialog(
-                        context,
-                        onSubmit: (email) async {
-                          // await supabase.auth.resetPasswordForEmail(email);
-                        },
-                      );
-                    },
-                    child: const Text('Şifremi unuttum', style: TextStyle(color: Colors.red),),
+                    onPressed: () => resetPassword(context),
+                    child: const Text(
+                      'Şifremi unuttum',
+                      style: TextStyle(color: Colors.red),
+                    ),
                   ),
                 ),
 
@@ -212,17 +188,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               buttonText: 'Google İle Devam Et',
             ),
           ),
-          SizedBox(height: 8,
-          ),
-          Expanded(
-            flex: 2,
-            child: CustomDifferentLoginTypeButton(
-              onPressed: widget.onApplePressed,
-              buttonIcon: FontAwesomeIcons.apple,
-              buttonText: 'Apple İle Devam Et',
-            ),
-          ),
-
+          Spacer(flex: 2,),
         ],
       ),
     );

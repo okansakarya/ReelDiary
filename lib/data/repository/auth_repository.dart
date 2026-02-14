@@ -44,7 +44,41 @@ class AuthRepository {
       throw Exception('Beklenmeyen bir hata oluştu: $e');
     }
   }
+  Future<bool> sendResetPasswordLink({required String email}) async {
+    try {
+      await _authService.sendResetPasswordLink(email: email);
+      return true;
+    } on AuthException catch (e) {
+      throw Exception(_mapErrorMessage(e.code));
+    } catch (e) {
+      throw Exception('Şifre Sıfırlanamadı Hata : $e');
+    }
+  }
 
+  Future<bool> verifyUserCode({
+    required String email,
+    required String token,
+  }) async {
+    try {
+      await _authService.verifyUserCode(email: email, token: token);
+      return true;
+    } on AuthException catch (e) {
+      throw Exception(_mapErrorMessage(e.code));
+    } catch (e) {
+      throw Exception('Kod Doğrulamada Sorun Yaşandı: $e');
+    }
+  }
+
+  Future<bool> updateUserPassword({required String newPassword}) async {
+    try {
+      await _authService.updateUserPassword(newPassword: newPassword);
+      return true;
+    } on AuthException catch (e) {
+      throw Exception(_mapErrorMessage(e.code));
+    } catch (e) {
+      throw Exception('Şifre Güncellenemedi : $e');
+    }
+  }
 
   /// =========================
   /// Google Auth
