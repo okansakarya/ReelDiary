@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/data/repository/auth_repository.dart';
+import 'package:movieapp/data/repository/movie_repository.dart';
 import 'package:movieapp/data/services/auth_service.dart';
+import 'package:movieapp/data/services/movie_service.dart';
 import 'package:movieapp/presentation/pages/auth/forgotPassword/state/password_cubit.dart';
 import 'package:movieapp/presentation/pages/auth/state/auth_cubit.dart';
+import 'package:movieapp/presentation/pages/homePage/components/state/home_page_cubit.dart';
 import 'package:movieapp/presentation/pages/navbar/components/state/nav_bar_cubit.dart';
 
 import '../../data/repository/connectivity_repository.dart';
@@ -44,6 +47,9 @@ class BlocInitialize extends StatelessWidget {
         ),
         BlocProvider<PasswordCubit>(
           create: (_) => PasswordCubit(AuthRepository(AuthService())),
+        ),
+        BlocProvider<HomePageCubit>(
+          create: (_) => HomePageCubit(MovieRepository(MovieService())),
         ),
         BlocProvider<NavBarCubit>(
           create: (_) => NavBarCubit(),

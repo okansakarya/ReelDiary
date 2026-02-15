@@ -1,67 +1,87 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
-import 'package:movieapp/data/modals/movie_model.dart';
-import 'package:movieapp/presentation/components/widgets/home_bottom_nav_widget.dart';
-import 'package:movieapp/presentation/pages/homePage/components/widgets/home_header_widget.dart';
-import 'package:movieapp/presentation/pages/homePage/components/widgets/home_hero_section_widget.dart';
-import 'package:movieapp/presentation/pages/homePage/components/widgets/home_tabs_widget.dart';
-import 'package:movieapp/presentation/pages/homePage/components/widgets/home_trending_section_widget.dart';
-import 'package:movieapp/utils/screen_utils.dart';
+import 'package:movieapp/presentation/components/widgets/custom_appbar_widget.dart';
+import 'package:movieapp/presentation/components/widgets/custom_circular_widget.dart';
+import 'package:movieapp/presentation/pages/homePage/components/state/home_page_cubit.dart';
+import 'package:movieapp/presentation/pages/homePage/components/state/home_page_state.dart';
+import 'package:movieapp/presentation/pages/homePage/components/widgets/movie_grid_view_list.dart';
+import 'package:movieapp/utils/pop_up_utils.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<HomePageCubit>().getHomePageMovies();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final horizontalPadding = ScreenUtils.getHorizontalPadding(context);
 
     return Scaffold(
       backgroundColor: AppColors.backgroundDark,
       body: SafeArea(
-        bottom: false,
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: horizontalPadding,
-                vertical: 16,
+            CustomAppBarWidget(
+              child: const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Ana Sayfa',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.backgroundDark,
+                  ),
+                ),
               ),
-              child: const HomeHeaderWidget(),
             ),
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: horizontalPadding,
-                        right: horizontalPadding,
-                        top: 8,
-                        bottom: 24,
-                      ),
-                      child: const HomeHeroSectionWidget(
-                        movie: MovieModel.featured,
-                      ),
+              child: BlocConsumer<HomePageCubit, HomePageState>(
+                listener: (context, state) {
+                  if (state is HomePageError) {
+                    PopUpUtils.showPopup(
+                      context,
+                      false,
+                      successMessage: '',
+                      failureMessage: state.error,
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is HomePageLoading) {
+                    return const Center(
+                      child: CustomCircularWidget(),
+                    );
+                  }
+                  if (state is HomePageLoaded) {
+                    return MovieGridViewList(items: state.movieList);
+                  }
+                  return const Center(
+                    child: Column(
+                      children: [
+                        CustomCircularWidget(),
+                        Text(
+                          'Liste yükleniyor...',
+                          style: TextStyle(
+                            color: AppColors.textMuted,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: horizontalPadding,
-                      ),
-                      child: const HomeTabsWidget(),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(horizontalPadding),
-                      child: const HomeTrendingSectionWidget(
-                        movies: MovieModel.trending,
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).padding.bottom + 80,
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
           ],

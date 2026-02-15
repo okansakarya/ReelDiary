@@ -1,31 +1,67 @@
-import 'package:dio/dio.dart';
+import 'package:movieapp/data/modals/movie_model.dart';
+import 'package:movieapp/data/modals/movie_spec_modal.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MovieService {
-  MovieService(String token)
-      : _token = token,
-        dio = Dio(
-          BaseOptions(
-            baseUrl: 'https://api.themoviedb.org/3',
-            headers: {
-              'Authorization': 'Bearer $token',
-              'accept': 'application/json',
-            },
-          ),
-        );
+  final _supabase = Supabase.instance.client;
 
-  final String _token; // istersen kullanırsın
-  final Dio dio;
+  Future<List<MovieModal>> getAllMovies() async {
+    try {
+      final movieList = await _supabase.from('tmdb_movie').select('''' 
+      tmdb_id,
+      title,
+      original_title,
+      overview,
+      tagline,
+      release_date,
+      runtime,
+      status,
+      original_language,
+      adult,
+      vote_average, 
+      vote_count,
+      popularity, 
+      poster_path,
+      backdrop_path,
+      imdb_id,
+      homepage,
+      genres,
+      details_synced_at 
+      ''');
 
-  Future<Map<String, dynamic>> nowPlaying({int page = 1}) async {
-    final res = await dio.get(
-      '/movie/now_playing',
-      queryParameters: {
-        'language': 'tr-TR',
-        'region': 'TR',
-        'page': page,
-      },
-    );
-
-    return (res.data as Map).cast<String, dynamic>();
+      return (movieList as List)
+          .map((e) => MovieModal.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      rethrow;
+    }
   }
+
+  Future<List<MovieSpecModal>> getHomePageMovies() async {
+    try {
+      final homePageMovies = await _supabase
+          .from('tmdb_movie_list_item')
+          .select('''
+      list_type, 
+      movie_id,
+      tmdb_movie (
+        title, 
+        poster_path, 
+        backdrop_path,
+        release_date
+      )
+      ''');
+
+      print(homePageMovies);
+
+
+      return (homePageMovies as List)
+          .map((e) => MovieSpecModal.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }
