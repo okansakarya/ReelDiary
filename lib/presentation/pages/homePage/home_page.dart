@@ -8,6 +8,7 @@ import 'package:movieapp/presentation/pages/auth/state/auth_cubit.dart';
 import 'package:movieapp/presentation/pages/homePage/components/state/home_page_cubit.dart';
 import 'package:movieapp/presentation/pages/homePage/components/state/home_page_state.dart';
 import 'package:movieapp/presentation/pages/homePage/components/widgets/drawer_widget.dart';
+import 'package:movieapp/presentation/pages/homePage/components/widgets/filter_card_widget.dart';
 import 'package:movieapp/presentation/pages/homePage/components/widgets/movie_grid_view_list.dart';
 import 'package:movieapp/utils/pop_up_utils.dart';
 import 'package:movieapp/utils/screen_utils.dart';
@@ -21,6 +22,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
+  String? _selectedFilterLabel;
 
   @override
   void initState() {
@@ -155,7 +157,67 @@ class _HomePageState extends State<HomePage> {
                       return const Center(child: CustomCircularWidget());
                     }
                     if (state is HomePageLoaded) {
-                      return MovieGridViewList(items: state.movieList);
+                      final list = state.movieList;
+                      final filterLabels = [
+                        'Tümü',
+                        ...list.map((m) => m.list_type).toSet().toList(),
+                      ];
+                      final filteredList =
+                          (_selectedFilterLabel == null ||
+                                  _selectedFilterLabel == 'Tümü')
+                              ? list
+                              : list
+                                  .where(
+                                    (m) =>
+                                        m.list_type.toLowerCase() ==
+                                        _selectedFilterLabel!
+                                            .toLowerCase(),
+                                  )
+                                  .toList();
+
+                      return Column(
+                        children: [
+                          SizedBox(
+                            height: ScreenUtils.getScreenHeight(context) * 0.06,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: filterLabels.length,
+                              itemBuilder: (context, index) {
+                                final label = filterLabels[index];
+                                final gap = horizontalPadding * 0.4;
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                    left: index == 0
+                                        ? horizontalPadding
+                                        : gap,
+                                    right: index == filterLabels.length - 1
+                                        ? horizontalPadding
+                                        : 0,
+                                  ),
+                                  child: SizedBox(
+                                    width: 100,
+                                    child: FilterCardWidget(
+                                      text: label,
+                                      isSelected:
+                                          _selectedFilterLabel == label ||
+                                              (_selectedFilterLabel == null &&
+                                                  label == 'Tümü'),
+                                      onTap: () {
+                                        setState(() {
+                                          _selectedFilterLabel = label;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            child: MovieGridViewList(items: filteredList),
+                          ),
+                        ],
+                      );
                     }
                     return Center(
                       child: Column(
