@@ -20,6 +20,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -29,7 +31,15 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void _searchMovie() {}
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _searchMovie() {
+    context.read<HomePageCubit>().searchMovie(_searchController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +101,7 @@ class _HomePageState extends State<HomePage> {
                           height: ScreenUtils.getScreenHeight(context) * 0.008,
                         ),
                         TextField(
+                          controller: _searchController,
                           decoration: InputDecoration(
                             hintText: 'Ara...',
                             prefixIcon: Icon(
@@ -120,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                             color: AppColors.textFieldText(context),
                             fontSize: 14,
                           ),
-                          onTap: _searchMovie,
+                          onChanged: (_) => _searchMovie(),
                         ),
                       ],
                     ),
