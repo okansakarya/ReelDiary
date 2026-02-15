@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/constants/list_type_labels.dart';
 import 'package:movieapp/core/extensions/user_extensions.dart';
 import 'package:movieapp/presentation/components/widgets/custom_appbar_widget.dart';
 import 'package:movieapp/presentation/components/widgets/custom_circular_widget.dart';
@@ -8,7 +9,7 @@ import 'package:movieapp/presentation/pages/auth/state/auth_cubit.dart';
 import 'package:movieapp/presentation/pages/homePage/components/state/home_page_cubit.dart';
 import 'package:movieapp/presentation/pages/homePage/components/state/home_page_state.dart';
 import 'package:movieapp/presentation/pages/homePage/components/widgets/drawer_widget.dart';
-import 'package:movieapp/presentation/pages/homePage/components/widgets/filter_card_widget.dart';
+import 'package:movieapp/presentation/pages/homePage/components/widgets/filter_listview.dart';
 import 'package:movieapp/presentation/pages/homePage/components/widgets/movie_grid_view_list.dart';
 import 'package:movieapp/utils/pop_up_utils.dart';
 import 'package:movieapp/utils/screen_utils.dart';
@@ -22,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
-  String? _selectedFilterLabel;
+  final ValueNotifier<String?> _filterNotifier = ValueNotifier<String?>(null);
 
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _searchController.dispose();
+    _filterNotifier.dispose();
     super.dispose();
   }
 
@@ -140,6 +142,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: ScreenUtils.getScreenHeight(context) * 0.02,
+              ),
               Expanded(
                 child: BlocConsumer<HomePageCubit, HomePageState>(
                   listener: (context, state) {
@@ -158,65 +163,48 @@ class _HomePageState extends State<HomePage> {
                     }
                     if (state is HomePageLoaded) {
                       final list = state.movieList;
-                      final filterLabels = [
+                      final distinctListTypes =
+                          list.map((m) => m.list_type).toSet().toList();
+                      final displayLabels = [
                         'Tümü',
-                        ...list.map((m) => m.list_type).toSet().toList(),
+                        ...distinctListTypes
+                            .map((api) => ListTypeLabels.toTurkish(api)),
                       ];
-                      final filteredList =
-                          (_selectedFilterLabel == null ||
-                                  _selectedFilterLabel == 'Tümü')
+                      final filterValues = [
+                        null,
+                        ...distinctListTypes,
+                      ];
+
+                      return ValueListenableBuilder<String?>(
+                        valueListenable: _filterNotifier,
+                        builder: (context, selected, _) {
+                          final filteredList = selected == null
                               ? list
                               : list
                                   .where(
                                     (m) =>
                                         m.list_type.toLowerCase() ==
-                                        _selectedFilterLabel!
-                                            .toLowerCase(),
+                                        selected.toLowerCase(),
                                   )
                                   .toList();
 
-                      return Column(
-                        children: [
-                          SizedBox(
-                            height: ScreenUtils.getScreenHeight(context) * 0.06,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: filterLabels.length,
-                              itemBuilder: (context, index) {
-                                final label = filterLabels[index];
-                                final gap = horizontalPadding * 0.4;
-                                return Padding(
-                                  padding: EdgeInsets.only(
-                                    left: index == 0
-                                        ? horizontalPadding
-                                        : gap,
-                                    right: index == filterLabels.length - 1
-                                        ? horizontalPadding
-                                        : 0,
-                                  ),
-                                  child: SizedBox(
-                                    width: 100,
-                                    child: FilterCardWidget(
-                                      text: label,
-                                      isSelected:
-                                          _selectedFilterLabel == label ||
-                                              (_selectedFilterLabel == null &&
-                                                  label == 'Tümü'),
-                                      onTap: () {
-                                        setState(() {
-                                          _selectedFilterLabel = label;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                          Expanded(
-                            child: MovieGridViewList(items: filteredList),
-                          ),
-                        ],
+                          return Column(
+                            children: [
+                              FilterListview(
+                                filterDisplayLabels: displayLabels,
+                                filterValues: filterValues,
+                                selectedFilterNotifier: _filterNotifier,
+                              ),
+                              SizedBox(
+                                height: ScreenUtils.getScreenHeight(context) *
+                                    0.025,
+                              ),
+                              Expanded(
+                                child: MovieGridViewList(items: filteredList),
+                              ),
+                            ],
+                          );
+                        },
                       );
                     }
                     return Center(
