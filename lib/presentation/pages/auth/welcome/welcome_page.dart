@@ -15,7 +15,7 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
+      backgroundColor: AppColors.surface(context),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -45,14 +45,14 @@ class _WelcomePageState extends State<WelcomePage> {
                             // Logo / ikon
                             WelcomCircleWidget(),
                             const SizedBox(height: 18),
-                            const Text(
+                            Text(
                               'ReelDiary',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 36,
                                 fontWeight: FontWeight.w900,
                                 height: 1.05,
-                                color: AppColors.textColor,
+                                color: AppColors.textPrimary(context),
                                 letterSpacing: 0.2,
                               ),
                             ),
@@ -65,7 +65,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                 fontSize: 15,
                                 height: 1.4,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.textColor.withOpacity(0.75),
+                                color: AppColors.textPrimary(context).withOpacity(0.75),
                               ),
                             ),
                           ],
@@ -79,31 +79,31 @@ class _WelcomePageState extends State<WelcomePage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             WelcomeButtonWidget(
-                              child: const Text(
+                              child: Text(
                                 'Giriş Yap',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Theme.of(context).colorScheme.onPrimary,
                                   fontSize: 16.5,
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
-                              backgroundColor: AppColors.primaryColor,
-                              borderColor: AppColors.primaryColor,
+                              backgroundColor: AppColors.primary(context),
+                              borderColor: AppColors.primary(context),
                               onPressed: () => context.push('/login'),
                             ),
                             const SizedBox(height: 12),
                             WelcomeButtonWidget(
-                              child: const Text(
+                              child: Text(
                                 'Kayıt Ol',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Theme.of(context).colorScheme.onSurface,
                                   fontSize: 16.5,
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
-                              backgroundColor: AppColors.secondaryColor
+                              backgroundColor: AppColors.secondary(context)
                                   .withOpacity(0.35),
-                              borderColor: Colors.white.withOpacity(0.18),
+                              borderColor: AppColors.textPrimary(context).withOpacity(0.18),
                               onPressed: () => context.push('/register'),
                             ),
                             const SizedBox(height: 18),
@@ -119,7 +119,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                   fontSize: 11.5,
                                   height: 1.35,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.textColor.withOpacity(0.45),
+                                  color: AppColors.textPrimary(context).withOpacity(0.45),
                                 ),
                               ),
                             ),

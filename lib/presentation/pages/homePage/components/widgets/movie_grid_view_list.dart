@@ -17,7 +17,7 @@ class MovieGridViewList extends StatelessWidget {
     final horizontalPadding = ScreenUtils.getHorizontalPadding(context);
 
     return Container(
-      color: AppColors.backgroundDark,
+      color: AppColors.surface(context),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
         child: GridView.builder(

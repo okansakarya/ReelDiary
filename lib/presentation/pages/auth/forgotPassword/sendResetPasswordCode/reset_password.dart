@@ -43,13 +43,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     final h = ScreenUtils.getScreenHeight(context);
     final textTheme = Theme.of(context).textTheme;
 
-    final fieldBg = AppColors.backgroundLight;
-    final fieldText = AppColors.backgroundDark;
-    final fieldIcon = AppColors.backgroundDarkLogin;
-    final fieldBorder = AppColors.primaryColor.withValues(alpha: 0.18);
+    final fieldBg = AppColors.surface(context);
+    final fieldText = AppColors.textPrimary(context);
+    final fieldIcon = AppColors.textPrimary(context);
+    final fieldBorder = AppColors.primary(context).withValues(alpha: 0.18);
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundLight,
+      backgroundColor: AppColors.surface(context),
       body: BlocConsumer<PasswordCubit, PasswordState>(
         listener: (context, state) {
           if (state is PasswordResetLinkSended) {
@@ -82,8 +82,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                AppColors.backgroundDark,
-                                AppColors.secondaryColor,
+                                AppColors.surface(context),
+                                AppColors.secondary(context),
                               ],
                             ),
                             borderRadius: const BorderRadius.only(
@@ -102,9 +102,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                   children: [
                                     const CustomBackButtonWidget(),
                                     const Spacer(),
-                                    const Icon(
+                                    Icon(
                                       Icons.mail_outline_rounded,
-                                      color: AppColors.textColor,
+                                      color: AppColors.textPrimary(context),
                                     ),
                                   ],
                                 ),
@@ -115,17 +115,17 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                     'Şifre Sıfırlama',
                                     style: textTheme.titleLarge?.copyWith(
                                       fontWeight: FontWeight.w800,
-                                      color: AppColors.textColor,
-                                    ),
+                                    color: AppColors.textPrimary(context),
                                   ),
                                 ),
-                                SizedBox(height: h * 0.01),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'E-posta adresini gir. Şifre yenileme kodu göndereceğiz.',
-                                    style: textTheme.bodyMedium?.copyWith(
-                                      color: AppColors.textColor.withValues(alpha: 0.85),
+                              ),
+                              SizedBox(height: h * 0.01),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'E-posta adresini gir. Şifre yenileme kodu göndereceğiz.',
+                                  style: textTheme.bodyMedium?.copyWith(
+                                    color: AppColors.textPrimary(context).withValues(alpha: 0.85),
                                       height: 1.25,
                                     ),
                                   ),
@@ -149,7 +149,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                 textColor: fieldText,
                                 iconColor: fieldIcon,
                                 borderColor: fieldBorder,
-                                labelColor: AppColors.backgroundDark
+                                labelColor: AppColors.textPrimary(context)
                                     .withValues(alpha: 0.85),
                                 validator: (value) {
                                   final v = value?.trim();
@@ -169,16 +169,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                           ? null
                                           : () => context.pop(),
                                       style: OutlinedButton.styleFrom(
-                                        foregroundColor: AppColors.backgroundDark,
+                                        foregroundColor: AppColors.textPrimary(context),
                                         side: BorderSide(
-                                          color: AppColors.primaryColor
+                                          color: AppColors.primary(context)
                                               .withValues(alpha: 0.35),
                                         ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(14),
                                         ),
                                       ),
-                                      child: const Text('İptal', style: TextStyle(color: Colors.white),),
+                                      child: Text('İptal', style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
                                     ),
                                   ),
                                   SizedBox(width: w * 0.03),
@@ -186,8 +186,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                     child: ElevatedButton(
                                       onPressed: isLoading ? null : _onSubmit,
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColors.primaryColor,
-                                        foregroundColor: AppColors.textColor,
+                                        backgroundColor: AppColors.primary(context),
+                                        foregroundColor: AppColors.textPrimary(context),
                                         elevation: 0,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(14),
@@ -208,7 +208,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 if (isLoading)
                   Positioned.fill(
                     child: Container(
-                      color: AppColors.backgroundDark.withValues(alpha: 0.5),
+                      color: AppColors.surface(context).withValues(alpha: 0.5),
                       child: const Center(child: CustomCircularWidget()),
                     ),
                   ),

@@ -7,10 +7,10 @@ class LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SpinKitFadingCircle(
-      color: AppColors.primaryColor, // ✅ ReelDiary primary (kırmızı)
+    return SpinKitFadingCircle(
+      color: AppColors.primary(context),
       size: 22,
-      duration: Duration(milliseconds: 1100),
+      duration: const Duration(milliseconds: 1100),
     );
   }
 }

@@ -21,18 +21,18 @@ class CustomImageNetworkWidget extends StatelessWidget {
       color: color,
       fit: fit,
       placeholder: (context, url) => Container(
-        color: AppColors.surfaceDark,
-        child: const Center(
+        color: AppColors.surfaceVariant(context),
+        child: Center(
           child: CircularProgressIndicator(
             strokeWidth: 2,
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.textColor),
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.textPrimary(context)),
           ),
         ),
       ),
-      errorWidget: (context, url, error) => const Center(
+      errorWidget: (context, url, error) => Center(
         child: Icon(
           Icons.broken_image,
-          color: AppColors.textColor,
+          color: AppColors.textPrimary(context),
           size: 50,
         ),
       ),

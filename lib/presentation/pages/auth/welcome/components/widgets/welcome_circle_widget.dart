@@ -24,14 +24,14 @@ class WelcomCircleWidget extends StatelessWidget {
     final circle = DecoratedBox(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.white.withOpacity(0.06),
+        color: AppColors.surfaceVariant(context).withOpacity(0.06),
         border: Border.all(
-          color: AppColors.primaryColor.withOpacity(0.28),
+          color: AppColors.primary(context).withOpacity(0.28),
           width: 1.2,
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryColor.withOpacity(0.18),
+            color: AppColors.primary(context).withOpacity(0.18),
             blurRadius: 26,
             spreadRadius: 1,
             offset: const Offset(0, 10),

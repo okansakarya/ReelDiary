@@ -11,12 +11,6 @@ import 'package:movieapp/utils/screen_utils.dart';
 class NavBarPage extends StatelessWidget {
   const NavBarPage({super.key});
 
-  static const Color splashPrimary = Color(0xFF3713EC);
-  static const Color splashPrimaryMid = Color(0xFF4F2CE0);
-  static const Color splashPrimaryLight = Color(0xFF6D4FF7);
-  static const Color splashBackgroundLight = Color(0xFFF6F6F8);
-  static const Color splashBackgroundDark = Color(0xFF131022);
-
   static const List<Widget> _pages = [
     HomePage(),
     Placeholder(),
@@ -29,10 +23,13 @@ class NavBarPage extends StatelessWidget {
     final screenWidth = ScreenUtils.getScreenWidth(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final navBg = isDark ? splashBackgroundDark : splashBackgroundLight;
-    final shadowColor = isDark
-        ? Colors.black.withValues(alpha: 0.45)
-        : Colors.black.withValues(alpha: 0.12);
+    final navBg = AppColors.surfaceVariant(context);
+    final shadowColor = AppColors.textPrimary(context).withValues(
+      alpha: isDark ? 0.45 : 0.12,
+    );
+    final borderColor = AppColors.primary(context).withValues(
+      alpha: isDark ? 0.18 : 0.10,
+    );
 
     return BlocBuilder<NavBarCubit, int>(
       builder: (context, currentIndex) {
@@ -46,9 +43,9 @@ class NavBarPage extends StatelessWidget {
             return true;
           },
           child: Scaffold(
-            backgroundColor: AppColors.backgroundDark,
+            backgroundColor: AppColors.surface(context),
             body: Container(
-              color: AppColors.backgroundDark,
+              color: AppColors.surface(context),
               child: IndexedStack(
                 index: currentIndex,
                 children: _pages,
@@ -64,7 +61,7 @@ class NavBarPage extends StatelessWidget {
                   color: navBg,
                   borderRadius: BorderRadius.circular(screenWidth * 0.08),
                   border: Border.all(
-                    color: splashPrimary.withValues(alpha: isDark ? 0.18 : 0.10),
+                    color: borderColor,
                     width: 1,
                   ),
                   boxShadow: [

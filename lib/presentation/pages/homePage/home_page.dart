@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/extensions/user_extensions.dart';
 import 'package:movieapp/presentation/components/widgets/custom_appbar_widget.dart';
 import 'package:movieapp/presentation/components/widgets/custom_circular_widget.dart';
+import 'package:movieapp/presentation/pages/auth/state/auth_cubit.dart';
 import 'package:movieapp/presentation/pages/homePage/components/state/home_page_cubit.dart';
 import 'package:movieapp/presentation/pages/homePage/components/state/home_page_state.dart';
+import 'package:movieapp/presentation/pages/homePage/components/widgets/drawer_widget.dart';
 import 'package:movieapp/presentation/pages/homePage/components/widgets/movie_grid_view_list.dart';
 import 'package:movieapp/utils/pop_up_utils.dart';
+import 'package:movieapp/utils/screen_utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,66 +29,143 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _searchMovie() {}
+
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthCubit>().currentUser;
+    final initials = user.getInitials();
+    final textPrimary = AppColors.textPrimary(context);
+    final primary = AppColors.primary(context);
+    final horizontalPadding = ScreenUtils.getHorizontalPadding(context);
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
-      body: SafeArea(
-        child: Column(
-          children: [
-            CustomAppBarWidget(
-              child: const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Ana Sayfa',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.backgroundDark,
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: BlocConsumer<HomePageCubit, HomePageState>(
-                listener: (context, state) {
-                  if (state is HomePageError) {
-                    PopUpUtils.showPopup(
-                      context,
-                      false,
-                      successMessage: '',
-                      failureMessage: state.error,
-                    );
-                  }
-                },
-                builder: (context, state) {
-                  if (state is HomePageLoading) {
-                    return const Center(
-                      child: CustomCircularWidget(),
-                    );
-                  }
-                  if (state is HomePageLoaded) {
-                    return MovieGridViewList(items: state.movieList);
-                  }
-                  return const Center(
+      backgroundColor: AppColors.surface(context),
+      drawer: DrawerWidget(),
+      body: Builder(
+        builder: (context) => SafeArea(
+          child: Column(
+            children: [
+              SizedBox(
+                height: ScreenUtils.getScreenHeight(context) * 0.20,
+                child: CustomAppBarWidget(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: horizontalPadding,
+                    ),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CustomCircularWidget(),
-                        Text(
-                          'Liste yükleniyor...',
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.menu, color: textPrimary),
+                              onPressed: () =>
+                                  Scaffold.of(context).openDrawer(),
+                            ),
+                            Text(
+                              'Anasayfa',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                                color: textPrimary,
+                              ),
+                            ),
+                            const Spacer(),
+                            CircleAvatar(
+                              backgroundColor: primary,
+                              child: Text(
+                                initials,
+                                style: TextStyle(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimary,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: ScreenUtils.getScreenHeight(context) * 0.008,
+                        ),
+                        TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Ara...',
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: AppColors.textFieldIcon(context),
+                            ),
+                            filled: true,
+                            fillColor: AppColors.textFieldFill(context),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                color: AppColors.textFieldBorder(context),
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                color: AppColors.textFieldBorder(context),
+                              ),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 12,
+                            ),
+                          ),
                           style: TextStyle(
-                            color: AppColors.textMuted,
+                            color: AppColors.textFieldText(context),
                             fontSize: 14,
                           ),
+                          onTap: _searchMovie,
                         ),
                       ],
                     ),
-                  );
-                },
+                  ),
+                ),
               ),
-            ),
-          ],
+              Expanded(
+                child: BlocConsumer<HomePageCubit, HomePageState>(
+                  listener: (context, state) {
+                    if (state is HomePageError) {
+                      PopUpUtils.showPopup(
+                        context,
+                        false,
+                        successMessage: '',
+                        failureMessage: state.error,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is HomePageLoading) {
+                      return const Center(child: CustomCircularWidget());
+                    }
+                    if (state is HomePageLoaded) {
+                      return MovieGridViewList(items: state.movieList);
+                    }
+                    return Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const CustomCircularWidget(),
+                          Text(
+                            'Liste yükleniyor...',
+                            style: TextStyle(
+                              color: AppColors.textSecondary(context),
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

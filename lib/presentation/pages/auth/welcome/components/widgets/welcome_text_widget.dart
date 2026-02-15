@@ -6,7 +6,9 @@ class WelcomeTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final primary = AppColors.primary(context);
+    final text = AppColors.textPrimary(context);
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text.rich(
@@ -16,7 +18,7 @@ class WelcomeTextWidget extends StatelessWidget {
                 text: 'Cildin ',
                 style: TextStyle(
                   fontSize: 16,
-                  color: AppColors.primaryColor,
+                  color: primary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -24,7 +26,7 @@ class WelcomeTextWidget extends StatelessWidget {
                 text: 'için doğruyu öğren,',
                 style: TextStyle(
                   fontSize: 16,
-                  color: AppColors.textColor,
+                  color: text,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -32,17 +34,17 @@ class WelcomeTextWidget extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(
           'içeriği tanı',
           style: TextStyle(
             fontSize: 16,
-            color: AppColors.textColor,
+            color: text,
             fontWeight: FontWeight.w500,
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text.rich(
           TextSpan(
             children: [
@@ -50,7 +52,7 @@ class WelcomeTextWidget extends StatelessWidget {
                 text: 'güvenle ',
                 style: TextStyle(
                   fontSize: 16,
-                  color: AppColors.primaryColor,
+                  color: primary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -58,7 +60,7 @@ class WelcomeTextWidget extends StatelessWidget {
                 text: 'kullan!',
                 style: TextStyle(
                   fontSize: 16,
-                  color: AppColors.textColor,
+                  color: text,
                   fontWeight: FontWeight.w500,
                 ),
               ),

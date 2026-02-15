@@ -12,13 +12,11 @@ class CustomTextFieldWidget extends StatefulWidget {
     this.controller,
     this.onChanged,
 
-    // ✅ CineTrack / dark-glass defaults
-    this.backgroundColor = AppColors.textFieldFill,      // glass fill
-    this.iconColor = AppColors.textFieldIcon,            // icon
-    this.textColor = AppColors.textFieldText,            // input text
-    this.labelColor = AppColors.textFieldLabel,          // label
-    this.borderColor = AppColors.textFieldBorder,        // border
-
+    this.backgroundColor,
+    this.iconColor,
+    this.textColor,
+    this.labelColor,
+    this.borderColor,
     this.togglePassword,
     this.isVisible = true,
     super.key,
@@ -31,11 +29,11 @@ class CustomTextFieldWidget extends StatefulWidget {
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
 
-  final Color backgroundColor;
-  final Color iconColor;
-  final Color textColor;
-  final Color borderColor;
-  final Color labelColor;
+  final Color? backgroundColor;
+  final Color? iconColor;
+  final Color? textColor;
+  final Color? borderColor;
+  final Color? labelColor;
 
   final String? Function(String?)? validator;
   final VoidCallback? togglePassword;
@@ -50,13 +48,20 @@ class _CustomTextFieldState extends State<CustomTextFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final bg = widget.backgroundColor ?? AppColors.textFieldFill(context);
+    final icon = widget.iconColor ?? AppColors.textFieldIcon(context);
+    final text = widget.textColor ?? AppColors.textFieldText(context);
+    final label = widget.labelColor ?? AppColors.textFieldLabel(context);
+    final border = widget.borderColor ?? AppColors.textFieldBorder(context);
+    final primary = AppColors.primary(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           widget.label,
           style: TextStyle(
-            color: widget.labelColor,
+            color: label,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -66,20 +71,20 @@ class _CustomTextFieldState extends State<CustomTextFieldWidget> {
           controller: widget.controller,
           obscureText: widget.isPassword && !isVisible,
           onChanged: widget.onChanged,
-          style: TextStyle(color: widget.textColor),
+          style: TextStyle(color: text),
           decoration: InputDecoration(
             filled: true,
-            fillColor: widget.backgroundColor,
+            fillColor: bg,
             hintText: widget.hintText,
-            hintStyle: TextStyle(color: widget.textColor.withValues(alpha: 0.45)),
-            prefixIcon: Icon(widget.icon, color: widget.iconColor),
+            hintStyle: TextStyle(color: text.withValues(alpha: 0.45)),
+            prefixIcon: Icon(widget.icon, color: icon),
             suffixIcon: widget.isPassword
                 ? IconButton(
               icon: Icon(
                 isVisible
                     ? Icons.visibility_outlined
                     : Icons.visibility_off_outlined,
-                color: widget.iconColor,
+                color: icon,
               ),
               onPressed: () {
                 setState(() => isVisible = !isVisible);
@@ -88,12 +93,11 @@ class _CustomTextFieldState extends State<CustomTextFieldWidget> {
                 : null,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(color: widget.borderColor),
+              borderSide: BorderSide(color: border),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              // ✅ focus: primary
-              borderSide: const BorderSide(color: AppColors.primaryColor, width: 1.5),
+              borderSide: BorderSide(color: primary, width: 1.5),
             ),
           ),
         ),

@@ -6,32 +6,34 @@ class KvkkCheckboxWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textPrim = AppColors.textPrimary(context);
+    final primary = AppColors.primary(context);
     return Text.rich(
       TextSpan(
         text: 'Devam ederek, ',
-        style: const TextStyle(color: AppColors.textColor, fontSize: 15),
+        style: TextStyle(color: textPrim, fontSize: 15),
         children: [
           TextSpan(
             text: 'kullanım şartları\n',
-            style: const TextStyle(
+            style: TextStyle(
               decoration: TextDecoration.underline,
-              color: AppColors.primaryColor,
+              color: primary,
               fontSize: 15,
               fontWeight: FontWeight.w600,
             ),
           ),
           TextSpan(
             text: 've gizlilik politikasını kabul\n',
-            style: const TextStyle(
+            style: TextStyle(
               decoration: TextDecoration.underline,
-              color: AppColors.primaryColor,
+              color: primary,
               fontSize: 15,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const TextSpan(
+          TextSpan(
             text: 'etmiş olursunuz.',
-            style: TextStyle(color: AppColors.textColor, fontSize: 15),
+            style: TextStyle(color: textPrim, fontSize: 15),
           ),
         ],
       ),

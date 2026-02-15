@@ -31,14 +31,14 @@ class CustomDifferentLoginTypeButton extends StatelessWidget {
           width: ScreenUtils.getScreenWidth(context)*0.6,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: AppColors.secondaryColor.withValues(alpha: 0.6),
+            color: AppColors.secondary(context).withValues(alpha: 0.6),
             borderRadius: radius,
-            border: Border.all(color: AppColors.primaryColor, width: 1),
+            border: Border.all(color: AppColors.primary(context), width: 1),
             boxShadow: [
               BoxShadow(
                 blurRadius: 10,
                 offset: const Offset(0, 4),
-                color: Colors.black.withValues(alpha: 0.08),
+                color: AppColors.surface(context).withValues(alpha: 0.08),
               ),
             ],
           ),
@@ -47,18 +47,16 @@ class CustomDifferentLoginTypeButton extends StatelessWidget {
             children: [
               Icon(
                 buttonIcon,
-                color: Colors.white,
+                color: AppColors.textPrimary(context),
                 size: 20,
               ),
               const SizedBox(width: 10),
               Text(
                 buttonText,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.textPrimary(context),
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  // disabled gibi göstermek istersen:
-                  // color: enabled ? const Color(0xFF0F172A) : Colors.black38,
                 ),
               ),
             ],

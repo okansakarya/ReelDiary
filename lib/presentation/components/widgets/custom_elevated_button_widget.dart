@@ -6,12 +6,12 @@ class CustomElevatedButtonWidget extends StatelessWidget {
   final VoidCallback? onPressed;
   final Widget child;
   final Color backgroundColor;
-  final Color foregroundColor;
+  final Color? foregroundColor;
   final Image? image;
 
   const CustomElevatedButtonWidget({
     this.border,
-    this.foregroundColor = Colors.white,
+    this.foregroundColor,
     this.image,
     required this.onPressed,
     required this.backgroundColor,
@@ -21,13 +21,14 @@ class CustomElevatedButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fg = foregroundColor ?? Theme.of(context).colorScheme.onPrimary;
     return SizedBox(
       width: ScreenUtils.getScreenWidth(context)*0.8,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           side: border,
           backgroundColor: backgroundColor,
-          foregroundColor: foregroundColor,
+          foregroundColor: fg,
           // Yazı rengi
           padding: const EdgeInsets.symmetric(vertical: 16),
 

@@ -48,6 +48,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         email: _emailController.text,
         password: _passwordController.text,
       );
+
+
+
     }
   }
 
@@ -111,10 +114,10 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () => context.push('/register'),
-                        child: const Text(
+                        child: Text(
                           'Kayıt Ol',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
@@ -127,9 +130,11 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                   alignment: Alignment.centerLeft,
                   child: TextButton(
                     onPressed: () => resetPassword(context),
-                    child: const Text(
+                    child: Text(
                       'Şifremi unuttum',
-                      style: TextStyle(color: Colors.red),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
                     ),
                   ),
                 ),
@@ -146,7 +151,6 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 if (state is Authenticated) {
                   // pop + popup hatasını önlemek için: popup önce, pop sonra (frame)
                   FocusManager.instance.primaryFocus?.unfocus();
-
                   PopUpUtils.showPopup(
                     context,
                     true,
@@ -156,7 +160,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
 
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     if (!context.mounted) return;
-                    context.pop();
+                    context.go('/navBarPage');
                   });
                 } else if (state is AuthError) {
                   FocusManager.instance.primaryFocus?.unfocus();
@@ -171,7 +175,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               builder: (context, state) {
                 return CustomElevatedButtonWidget(
                   onPressed: state is AuthLoading ? null : _handleLogin,
-                  backgroundColor: AppColors.primaryColor,
+                  backgroundColor: AppColors.primary(context),
                   child: state is AuthLoading
                       ? const CustomCircularWidget()
                       : const Text('Giriş yap', style: TextStyle(fontSize: 18)),

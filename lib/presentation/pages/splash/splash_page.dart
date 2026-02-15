@@ -58,20 +58,19 @@ class _SplashPageState extends State<SplashPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
+      backgroundColor: AppColors.surface(context),
       body: SafeArea(
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          // ✅ Netflix tarzı koyu gradient (Stack yok)
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                AppColors.backgroundDark,
-                AppColors.secondaryColor.withValues(alpha: 0.85),
-                AppColors.backgroundDark,
+                AppColors.surface(context),
+                AppColors.secondary(context).withValues(alpha: 0.85),
+                AppColors.surface(context),
               ],
             ),
           ),
@@ -100,10 +99,10 @@ class _SplashPageState extends State<SplashPage>
 
                       // ✅ İstersen logoda yazı varsa bu iki satırı silebilirsin
                       const SizedBox(height: 12),
-                      const Text(
+                      Text(
                         'ReelDiary',
                         style: TextStyle(
-                          color: AppColors.primaryColor,
+                          color: AppColors.primary(context),
                           fontSize: 30,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 0.6,
@@ -113,7 +112,7 @@ class _SplashPageState extends State<SplashPage>
                       Text(
                         'Track what you watch',
                         style: TextStyle(
-                          color: AppColors.textColor.withValues(alpha: 0.70),
+                          color: AppColors.textPrimary(context).withValues(alpha: 0.70),
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.2,
@@ -133,7 +132,7 @@ class _SplashPageState extends State<SplashPage>
                             Text(
                               'Yükleniyor...',
                               style: TextStyle(
-                                color: AppColors.textColor.withValues(alpha: 0.85),
+                                color: AppColors.textPrimary(context).withValues(alpha: 0.85),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                               ),

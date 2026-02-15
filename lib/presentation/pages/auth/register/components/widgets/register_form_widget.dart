@@ -164,7 +164,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
             builder: (BuildContext context, AuthState state) {
               return CustomElevatedButtonWidget(
                 onPressed: state is AuthLoading ? null : _handleRegister,
-                backgroundColor: AppColors.primaryColor,
+                backgroundColor: AppColors.primary(context),
 
                 child: state is AuthLoading ? const CustomCircularWidget() :const Text(
                   'Kayıt ol',

@@ -7,16 +7,17 @@ class NoInternetPopUpWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Opacity(
       opacity: 0.8,
       child: Scaffold(
         body: Align(
           child: Container(
-            color: Colors.red,
+            color: colorScheme.error,
             padding: const EdgeInsets.all(8),
-            child: const Text(
+            child: Text(
               'No Internet Connection',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: colorScheme.onError),
               textAlign: TextAlign.center,
             ),
           ),

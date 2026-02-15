@@ -9,12 +9,6 @@ class MovieCardWidget extends StatelessWidget {
 
   const MovieCardWidget({required this.movie, super.key});
 
-  static Widget _placeholderIcon() => Icon(
-        Icons.movie,
-        color: AppColors.textColor.withValues(alpha: 0.54),
-        size: 40,
-      );
-
   @override
   Widget build(BuildContext context) {
     final hasPoster = movie.posterPath != null &&
@@ -22,13 +16,15 @@ class MovieCardWidget extends StatelessWidget {
     final fullPosterUrl = hasPoster
         ? TmdbConstants.posterBaseUrl + movie.posterPath!
         : null;
+    final surfaceVar = AppColors.surfaceVariant(context);
+    final textPrim = AppColors.textPrimary(context);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Container(
         width: 140,
         height: 210,
-        decoration: BoxDecoration(color: AppColors.cardDark),
+        decoration: BoxDecoration(color: surfaceVar),
         child: Stack(
           children: [
             /// Poster Image
@@ -36,8 +32,12 @@ class MovieCardWidget extends StatelessWidget {
               child: fullPosterUrl != null
                   ? CustomImageNetworkWidget(photoUrl: fullPosterUrl)
                   : Container(
-                      color: AppColors.surfaceDark,
-                      child: _placeholderIcon(),
+                      color: surfaceVar,
+                      child: Icon(
+                        Icons.movie,
+                        color: textPrim.withValues(alpha: 0.54),
+                        size: 40,
+                      ),
                     ),
             ),
 
@@ -53,7 +53,7 @@ class MovieCardWidget extends StatelessWidget {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                      AppColors.backgroundDark.withValues(alpha: 0.8),
+                      AppColors.surface(context).withValues(alpha: 0.8),
                       Colors.transparent,
                     ],
                   ),
@@ -70,8 +70,8 @@ class MovieCardWidget extends StatelessWidget {
                 movie.movie_name.isNotEmpty ? movie.movie_name : '—',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: AppColors.textColor,
+                style: TextStyle(
+                  color: textPrim,
                   fontWeight: FontWeight.w600,
                   fontSize: 13,
                 ),

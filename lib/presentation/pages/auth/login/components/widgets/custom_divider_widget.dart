@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/constants/app_colors.dart';
 import 'package:movieapp/utils/screen_utils.dart';
 
 class CustomDividerWidget extends StatelessWidget {
@@ -6,13 +7,14 @@ class CustomDividerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = AppColors.textPrimary(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
           child: Divider(
             thickness: 1,
-            color: Colors.white,
+            color: color,
           ),
         ),
         Padding(
@@ -21,16 +23,13 @@ class CustomDividerWidget extends StatelessWidget {
           ),
           child: Text(
             'veya',
-            style: TextStyle(
-              /// app colorsa geicek
-              color: Colors.white,
-            ),
+            style: TextStyle(color: color),
           ),
         ),
         Expanded(
           child: Divider(
             thickness: 1,
-            color: Colors.white,
+            color: color,
           ),
         ),
       ],

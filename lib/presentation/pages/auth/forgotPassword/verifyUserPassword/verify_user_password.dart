@@ -41,13 +41,13 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
     final h = ScreenUtils.getScreenHeight(context);
     final textTheme = Theme.of(context).textTheme;
 
-    final fieldBg = AppColors.backgroundLight;
-    final fieldText = AppColors.backgroundDark;
-    final fieldIcon = AppColors.backgroundDarkLogin;
-    final fieldBorder = AppColors.primaryColor.withValues(alpha: 0.18);
+    final fieldBg = AppColors.surface(context);
+    final fieldText = AppColors.textPrimary(context);
+    final fieldIcon = AppColors.textPrimary(context);
+    final fieldBorder = AppColors.primary(context).withValues(alpha: 0.18);
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundLight,
+      backgroundColor: AppColors.surface(context),
       body: BlocConsumer<PasswordCubit, PasswordState>(
         listener: (context, state) {
           if (state is UserTokenVerified) {
@@ -97,8 +97,8 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              AppColors.backgroundDark,
-                              AppColors.secondaryColor,
+                              AppColors.surface(context),
+                              AppColors.secondary(context),
                             ],
                           ),
                           borderRadius: const BorderRadius.only(
@@ -117,9 +117,9 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                 children: [
                                   const CustomBackButtonWidget(),
                                   const Spacer(),
-                                  const Icon(
+                                  Icon(
                                     Icons.verified_user_rounded,
-                                    color: AppColors.textColor,
+                                    color: AppColors.textPrimary(context),
                                   ),
                                 ],
                               ),
@@ -130,7 +130,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                   'Kod Doğrulama',
                                   style: textTheme.titleLarge?.copyWith(
                                     fontWeight: FontWeight.w800,
-                                    color: AppColors.textColor,
+                                    color: AppColors.textPrimary(context),
                                   ),
                                 ),
                               ),
@@ -140,7 +140,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                 child: Text(
                                   'E-postanıza gelen doğrulama kodunu girin.',
                                   style: textTheme.bodyMedium?.copyWith(
-                                    color: AppColors.textColor.withValues(
+                                    color: AppColors.textPrimary(context).withValues(
                                       alpha: 0.85,
                                     ),
                                     height: 1.25,
@@ -171,7 +171,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                 textColor: fieldText,
                                 iconColor: fieldIcon,
                                 borderColor: fieldBorder,
-                                labelColor: AppColors.backgroundDark.withValues(
+                                labelColor: AppColors.textPrimary(context).withValues(
                                   alpha: 0.85,
                                 ),
                                 validator: (v) {
@@ -196,16 +196,16 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                           ? null
                                           : () => Navigator.of(context).pop(),
                                       style: OutlinedButton.styleFrom(
-                                        foregroundColor: AppColors.backgroundDark,
+                                        foregroundColor: AppColors.textPrimary(context),
                                         side: BorderSide(
-                                          color: AppColors.primaryColor
+                                          color: AppColors.primary(context)
                                               .withValues(alpha: 0.35),
                                         ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(14),
                                         ),
                                       ),
-                                      child: const Text('İptal', style: TextStyle(color: Colors.white),),
+                                      child: Text('İptal', style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
                                     ),
                                   ),
                                   SizedBox(width: w * 0.03),
@@ -213,8 +213,8 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                     child: ElevatedButton(
                                       onPressed: isLoading ? null : _onSend,
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColors.primaryColor,
-                                        foregroundColor: AppColors.textColor,
+                                        backgroundColor: AppColors.primary(context),
+                                        foregroundColor: AppColors.textPrimary(context),
                                         elevation: 0,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(14),
@@ -236,7 +236,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                 if (isLoading)
                   Positioned.fill(
                     child: Container(
-                      color: AppColors.backgroundDark.withValues(alpha: 0.5),
+                      color: AppColors.surface(context).withValues(alpha: 0.5),
                       child: const Center(child: CustomCircularWidget()),
                     ),
                   ),

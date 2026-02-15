@@ -11,10 +11,10 @@ class HomeBottomNavWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.backgroundDark.withOpacity(0.7),
+        color: AppColors.surface(context).withOpacity(0.7),
         border: Border(
           top: BorderSide(
-            color: Colors.white.withOpacity(0.05),
+            color: AppColors.textPrimary(context).withOpacity(0.05),
             width: 1,
           ),
         ),
@@ -98,8 +98,8 @@ class _NavItem extends StatelessWidget {
                     icon,
                     size: 28,
                     color: isActive
-                        ? AppColors.primaryColor
-                        : AppColors.textMuted,
+                        ? AppColors.primary(context)
+                        : AppColors.textSecondary(context),
                     fill: isActive ? 1.0 : 0.0,
                   ),
                   if (isActive)
@@ -109,7 +109,7 @@ class _NavItem extends StatelessWidget {
                         width: 4,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: AppColors.primaryColor,
+                          color: AppColors.primary(context),
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -123,8 +123,8 @@ class _NavItem extends StatelessWidget {
                 fontSize: 10,
                 fontWeight: FontWeight.w500,
                 color: isActive
-                    ? AppColors.textColor
-                    : AppColors.textMuted,
+                    ? AppColors.textPrimary(context)
+                    : AppColors.textSecondary(context),
               ),
             ),
           ],

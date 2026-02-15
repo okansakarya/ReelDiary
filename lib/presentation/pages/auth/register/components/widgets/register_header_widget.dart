@@ -18,21 +18,21 @@ class RegisterHeaderWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Kayıt Ol',
                 style: TextStyle(
                   fontSize: 30,
-                  color: AppColors.textColor,
+                  color: AppColors.textPrimary(context),
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: ScreenUtils.getScreenHeight(context) * 0.03),
-              const Text(
+              Text(
                 "ReelDiary'e hoşgeldiniz!",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textColor,
+                  color: AppColors.textPrimary(context),
                 ),
               ),
             ],

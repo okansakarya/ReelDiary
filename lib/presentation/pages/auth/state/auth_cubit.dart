@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/data/repository/auth_repository.dart';
 import 'package:movieapp/presentation/pages/auth/state/auth_state.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this._authRepository) : super(AuthInitial());
   final AuthRepository _authRepository;
+
+  supabase.User? get currentUser => _authRepository.currentUser;
 
   // Email login
   Future<void> loginWithEmail({required BuildContext context,required String email, required String password}) async {

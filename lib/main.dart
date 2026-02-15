@@ -9,6 +9,7 @@ import 'package:movieapp/core/config/app_initialize_config.dart';
 import 'package:movieapp/core/config/bloc_initialize_config.dart';
 import 'package:movieapp/core/config/localization_initialize_config.dart';
 import 'package:movieapp/core/config/supabase_config.dart';
+import 'package:movieapp/presentation/state/settings/theme_cubit.dart';
 import 'package:movieapp/utils/logger_utils.dart';
 
 import 'package:timeago/timeago.dart' as timeago;
@@ -43,14 +44,14 @@ Future<void> main() async {
   await initialize();
   LoggerUtils.logger.i('Uygulama başlatılıyor!');
 
+  final initialTheme = await ThemeCubit.loadSavedTheme();
+
   runApp(
-    const LocalizationInitialize(
-      // Dil initialize işlemi
+    LocalizationInitialize(
       child: BlocInitialize(
-        // State initialize işlemi
-        initialLocale: Locale('tr', 'TR'),
-        initialTheme: ThemeMode.dark,
-        child: App(),
+        initialLocale: const Locale('tr', 'TR'),
+        initialTheme: initialTheme,
+        child: const App(),
       ),
     ),
   );

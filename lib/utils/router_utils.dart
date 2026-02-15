@@ -7,6 +7,8 @@ import 'package:movieapp/presentation/pages/auth/forgotPassword/verifyUserPasswo
 import 'package:movieapp/presentation/pages/auth/login/login_page.dart';
 import 'package:movieapp/presentation/pages/auth/register/register_page.dart';
 import 'package:movieapp/presentation/pages/auth/welcome/welcome_page.dart';
+import 'package:movieapp/presentation/pages/homePage/home_page.dart';
+import 'package:movieapp/presentation/pages/navbar/nav_bar.dart';
 import 'package:movieapp/presentation/pages/notFound/notFound_page.dart';
 import 'package:movieapp/presentation/pages/splash/splash_page.dart';
 
@@ -63,6 +65,12 @@ class RouterUtils {
           path: '/changeUserPassword',
           builder: (BuildContext context, GoRouterState state) {
             return const ChangeUserPasswordPage();
+          },
+        ),
+        GoRoute(
+          path: '/navBarPage',
+          builder: (BuildContext context, GoRouterState state) {
+            return const NavBarPage();
           },
         ),
       ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp/presentation/pages/navbar/nav_bar.dart';
+import 'package:movieapp/core/constants/app_colors.dart';
 import 'package:movieapp/utils/screen_utils.dart';
 
 class NavItem extends StatelessWidget {
@@ -20,13 +20,12 @@ class NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = ScreenUtils.getScreenWidth(context);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final primary = AppColors.primary(context);
+    final secondary = AppColors.secondary(context);
 
-    final inactiveColor = isDark
-        ? Colors.white.withValues(alpha: 0.72)
-        : Colors.black.withValues(alpha: 0.55);
-
-    final fgColor = isSelected ? Colors.white : inactiveColor;
+    final inactiveColor = AppColors.textSecondary(context);
+    final fgColor = isSelected ? colorScheme.onPrimary : inactiveColor;
     final pillRadius = BorderRadius.circular(screenWidth * 0.09);
 
     const pillDuration = Duration(milliseconds: 150);
@@ -50,26 +49,24 @@ class NavItem extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: pillRadius,
                 gradient: isSelected
-                    ? const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    NavBarPage.splashPrimaryLight,
-                    NavBarPage.splashPrimaryMid,
-                    NavBarPage.splashPrimary,
-                  ],
-                )
+                    ? LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          secondary,
+                          primary,
+                        ],
+                      )
                     : null,
                 color: isSelected ? null : Colors.transparent,
                 boxShadow: isSelected
                     ? [
-                  BoxShadow(
-                    color:
-                    NavBarPage.splashPrimary.withValues(alpha: 0.26),
-                    blurRadius: 14,
-                    offset: const Offset(0, 8),
-                  ),
-                ]
+                        BoxShadow(
+                          color: primary.withValues(alpha: 0.26),
+                          blurRadius: 14,
+                          offset: const Offset(0, 8),
+                        ),
+                      ]
                     : [],
               ),
               child: Column(

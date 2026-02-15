@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/constants/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerEffect extends StatelessWidget {
@@ -6,13 +7,15 @@ class ShimmerEffect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final base = AppColors.surfaceVariant(context);
+    final highlight = AppColors.textSecondary(context);
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade400, // daha koyu zemin
-      highlightColor: Colors.grey.shade600, // daha az parlak vurgu
+      baseColor: base,
+      highlightColor: highlight,
       child: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Colors.grey.shade800,
+        color: base,
       ),
     );
   }

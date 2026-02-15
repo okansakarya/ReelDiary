@@ -1,54 +1,54 @@
 import 'package:flutter/material.dart';
 
-/// Değişecekler...
+/// Dark / Light tema paletleri. Erişim: AppColors.primary(context) vb.
 class AppColors {
+  AppColors._();
 
-  // Primary accent (logo, active, highlights)
-  static const Color primaryColor = Color(0xFFEA2A33);
+  // ----- Dark tema (#1B262C, #0F4C75, #3282B8, #BBE1FA)
+  static const Color _darkSurface = Color(0xFF1B262C);
+  static const Color _darkSurfaceVariant = Color(0xFF0F4C75);
+  static const Color _darkPrimary = Color(0xFF3282B8);
+  static const Color _darkSecondary = Color(0xFF0F4C75);
+  static const Color _darkTextPrimary = Color(0xFFBBE1FA);
+  static const Color _darkTextSecondary = Color(0xCCBBE1FA);
 
-  // Secondary / surface-dark (cards, nav glass arka planı temeli)
-  static const Color secondaryColor = Color(0xFF211111);
+  // ----- Light tema (#E3FDFD, #CBF1F5, #A6E3E9, #71C9CE, #1B262C)
+  static const Color _lightSurface = Color(0xFFE3FDFD);
+  static const Color _lightSurfaceVariant = Color(0xFFCBF1F5);
+  static const Color _lightPrimary = Color(0xFF71C9CE);
+  static const Color _lightSecondary = Color(0xFFA6E3E9);
+  static const Color _lightTextPrimary = Color(0xFF1B262C);
+  static const Color _lightTextSecondary = Color(0x991B262C);
 
-  // Main text color on dark UI
-  static const Color textColor = Color(0xFFFFFFFF);
+  static bool _isDark(BuildContext c) =>
+      Theme.of(c).brightness == Brightness.dark;
 
-  // Primary CTA button (Sign In, Watch Trailer vb.)
-  static const Color buttonColor = Color(0xFFEA2A33);
+  static Color surface(BuildContext c) =>
+      _isDark(c) ? _darkSurface : _lightSurface;
 
-  // (Opsiyonel) Tasarımda sık görünen yardımcı tonlar:
-  static const Color backgroundLight = Color(0xFFF8F6F6);
-  static const Color backgroundDarkLogin = Color(0xFF211111);
-  static const Color backgroundDarkHome = Color(0xFF120A0A); // home html’de var
-  static const Color cardDark = Color(0xFF2A1D1D); // details html’de var
+  static Color surfaceVariant(BuildContext c) =>
+      _isDark(c) ? _darkSurfaceVariant : _lightSurfaceVariant;
 
-  static const Color textMuted = Color(0xFF9CA3AF); // gray-400
-  static const Color textSubtle = Color(0xFF6B7280); // gray-500
-  static const Color starYellow = Color(0xFFFACC15); // yellow-400
+  static Color primary(BuildContext c) =>
+      _isDark(c) ? _darkPrimary : _lightPrimary;
 
-  // Surface colors
-  static const Color surfaceDark = Color(0xFF211111); // cards, nav glass background
+  static Color secondary(BuildContext c) =>
+      _isDark(c) ? _darkSecondary : _lightSecondary;
 
-  static const backgroundDark = Color(0xFF120A0A); // home tasarımına yakın
+  static Color textPrimary(BuildContext c) =>
+      _isDark(c) ? _darkTextPrimary : _lightTextPrimary;
 
+  static Color textSecondary(BuildContext c) =>
+      _isDark(c) ? _darkTextSecondary : _lightTextSecondary;
 
-
-
-  // TextField (CineTrack dark-glass) - ✅ const
-  static const Color textFieldText  = Color(0xFFFFFFFF);
-
-  // white 6%  => 0x0FFFFFFF  (alpha 15/255 ≈ 0.0588)
-  static const Color textFieldFill  = Color(0x0FFFFFFF);
-
-  // white 12% => 0x1FFFFFFF  (alpha 31/255 ≈ 0.1216)
-  static const Color textFieldBorder = Color(0x1FFFFFFF);
-
-  // white 60% => 0x99FFFFFF  (alpha 153/255 = 0.6)
-  static const Color textFieldIcon  = Color(0x99FFFFFF);
-
-  // white 85% => 0xD9FFFFFF  (alpha 217/255 ≈ 0.85)
-  static const Color textFieldLabel = Color(0xD9FFFFFF);
-
-
-
-
+  // TextField (tema-farkında; textPrimary tabanlı alpha)
+  static Color textFieldText(BuildContext c) => textPrimary(c);
+  static Color textFieldFill(BuildContext c) =>
+      textPrimary(c).withValues(alpha: 0.06);
+  static Color textFieldBorder(BuildContext c) =>
+      textPrimary(c).withValues(alpha: 0.12);
+  static Color textFieldIcon(BuildContext c) =>
+      textPrimary(c).withValues(alpha: 0.6);
+  static Color textFieldLabel(BuildContext c) =>
+      textPrimary(c).withValues(alpha: 0.85);
 }

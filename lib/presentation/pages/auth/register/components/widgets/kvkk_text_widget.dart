@@ -7,6 +7,10 @@ class KvkkTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textPrim = AppColors.textPrimary(context);
+    final textSec = AppColors.textSecondary(context);
+    final primary = AppColors.primary(context);
+
     return Container(
       padding: EdgeInsets.all(ScreenUtils.getScreenHeight(context) * 0.03),
       height: 250,
@@ -14,136 +18,127 @@ class KvkkTextWidget extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            const Text(
+            Text(
               'KVKK ŞARTLARI',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: AppColors.textColor,
+                color: textPrim,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-
-            const Align(
+            Align(
               alignment: Alignment.topLeft,
               child: Text(
                 '1. Genel Bilgiler',
                 style: TextStyle(
-                  color: AppColors.textColor,
+                  color: textPrim,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            const Align(
+            Align(
               alignment: Alignment.topLeft,
               child: Text(
                 '''Bu mobil uygulama, kullanıcıların cilt tipi ve içerik
 bilgilerine göre kozmetik ürünler hakkında bilgi edinmesini ve kişiselleştirilmiş öneriler almasını
 sağlamak amacıyla geliştirilmiştir. Uygulamayı indirip
 kullanarak aşağıdaki şartları kabul etmiş sayılırsınız.''',
-                style: TextStyle(
-                  color: AppColors.textMuted, // 👈 body daha yumuşak
-                ),
+                style: TextStyle(color: textSec),
               ),
             ),
-
-            const Align(
+            Align(
               alignment: Alignment.topLeft,
               child: Text(
                 '2. Kullanıcı Sorumluluğu',
                 style: TextStyle(
-                  color: AppColors.textColor,
+                  color: textPrim,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            const Align(
+            Align(
               alignment: Alignment.topLeft,
               child: Text(
                 '''Uygulamayı yalnızca yasal amaçlarla kullanabilirsiniz.
 Hesap bilgilerinizin gizliliğinden siz sorumlusunuz.
 Uygulama içeriğini kopyalamak, dağıtmak
 veya kötüye kullanmak yasaktır.''',
-                style: TextStyle(color: AppColors.textMuted),
+                style: TextStyle(color: textSec),
               ),
             ),
-
-            const Align(
+            Align(
               alignment: Alignment.topLeft,
               child: Text(
                 '3. Sağlık Beyanı',
                 style: TextStyle(
-                  color: AppColors.textColor,
+                  color: textPrim,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            const Align(
+            Align(
               alignment: Alignment.topLeft,
               child: Text(
                 '''Bu uygulama tıbbi cihaz değildir ve sağlık teşhisi koymaz.
 Sağlıkla ilgili tavsiyeler yalnızca bilgilendirme
 amaçlıdır; cilt hastalıkları için mutlaka bir uzmana danışılmalıdır.''',
-                style: TextStyle(color: AppColors.textMuted),
+                style: TextStyle(color: textSec),
               ),
             ),
-
-            const Align(
+            Align(
               alignment: Alignment.topLeft,
               child: Text(
                 '4. İçerik doğruluğu',
                 style: TextStyle(
-                  color: AppColors.textColor,
+                  color: textPrim,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            const Align(
+            Align(
               alignment: Alignment.topLeft,
               child: Text(
                 '''Uygulamada yer alan ürün içerikleri, güvenilir kaynaklardan derlenmiştir.
 Ancak içeriklerin güncelliği ve doğruluğu garanti edilmez.
 Uygulama, üretici markalarla resmi olarak bağlantılı değildir.''',
-                style: TextStyle(color: AppColors.textMuted),
+                style: TextStyle(color: textSec),
               ),
             ),
-
-            const Align(
+            Align(
               alignment: Alignment.topLeft,
               child: Text(
                 '5. Değişiklik Hakkı',
                 style: TextStyle(
-                  color: AppColors.textColor,
+                  color: textPrim,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            const Align(
+            Align(
               alignment: Alignment.topLeft,
               child: Text(
                 '''Uygulama sahipleri, herhangi bir zamanda hizmeti değiştirme, durdurma
 veya kullanım şartlarını güncelleme hakkını saklı tutar.''',
-                style: TextStyle(color: AppColors.textMuted),
+                style: TextStyle(color: textSec),
               ),
             ),
-
             SizedBox(height: ScreenUtils.getScreenHeight(context) * 0.02),
-
             SizedBox(
               width: double.infinity,
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
+                  backgroundColor: primary,
                 ),
                 onPressed: () => Navigator.pop(context),
-                child: const Text(
+                child: Text(
                   'Kapat',
-                  style: TextStyle(color: AppColors.textColor),
+                  style: TextStyle(color: textPrim),
                 ),
               ),
             ),

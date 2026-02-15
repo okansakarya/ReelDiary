@@ -17,7 +17,7 @@ class CustomBackButtonWidget extends StatelessWidget {
       onTap: () => _navigateToBack(context),
       child:  CircleAvatar(
         radius: 20,
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: AppColors.primary(context),
         child: FaIcon(FontAwesomeIcons.angleLeft,size: 17)
       ),
     );

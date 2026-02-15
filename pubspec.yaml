@@ -45,6 +45,7 @@ dependencies:
   dropdown_search: ^6.0.2
   flutter_dotenv: ^6.0.0
   dio: ^5.9.0
+  shared_preferences: ^2.3.3
 
 
 dev_dependencies:
